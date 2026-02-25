@@ -135,14 +135,19 @@ function App() {
             path="/login"
             element={
               <PublicRoute>
-                <Login />
+                {/* allow login component to update App state and load cart immediately */}
+                <Login setUser={setUser} fetchCart={fetchCart} />
               </PublicRoute>
             }
           />
 
           {/* Protected Routes */}
+          {/* always send bare root to login; the protected route will handle
+               redirects once the user is authenticated */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* authenticated homepage lives on its own path */}
           <Route
-            path="/"
+            path="/homepage"
             element={
               <ProtectedRoute>
                 <Homepage />
@@ -199,8 +204,8 @@ function App() {
           />
           {/* admin dashboard for waste; userRole is enforced within the component itself */}
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Fallback for any unknown URL – send user to login so they can start again. */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
     </Router>

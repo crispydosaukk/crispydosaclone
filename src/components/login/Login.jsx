@@ -5,7 +5,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './Login.css';
 
-const Login = () => {
+const Login = ({ setUser, fetchCart }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -57,6 +57,9 @@ const Login = () => {
                 delete userFound.password;
                 localStorage.setItem('isAuthenticated', 'true');
                 localStorage.setItem('user', JSON.stringify(userFound));
+                // update parent app state and fetch cart right away
+                if (setUser) setUser(userFound);
+                if (fetchCart) fetchCart(userFound.id);
                 navigate('/homepage');
             } else {
                 console.warn("DEBUG LOGIN: Password mismatch.");
