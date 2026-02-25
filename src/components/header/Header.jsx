@@ -12,10 +12,15 @@ const Header = ({ cart = [] }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Don't show header on login page
-    if (location.pathname === '/login') return null;
+    const shouldHide = location.pathname === '/login';
 
+    // all hooks must run unconditionally so we don't change the hook count
     useEffect(() => {
+        if (shouldHide) {
+            // if header is hidden we don't need to register listeners
+            return;
+        }
+
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
@@ -37,7 +42,9 @@ const Header = ({ cart = [] }) => {
             window.removeEventListener('scroll', handleScroll);
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [shouldHide]);
+
+    if (shouldHide) return null;
 
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
