@@ -1,0 +1,15 @@
+# Single-page application rewrite rules
+# Place this file in the directory where your built site is served (e.g. public_html on Hostinger).
+# It ensures all routes are redirected to index.html so that React Router can handle them.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # If the request is for an existing file or directory, serve it as usual
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Otherwise rewrite to index.html
+  RewriteRule . /index.html [L]
+</IfModule>
