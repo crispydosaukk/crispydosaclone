@@ -77,7 +77,20 @@ const Waste = () => {
             // avoid composite index by omitting orderBy/limit – we'll sort in memory
             const q = query(collection(db, "wastage"), where("userId", "==", userId));
             const snapshot = await getDocs(q);
-            let data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            let data = snapshot.docs.map(doc => {
+                const d = { id: doc.id, ...doc.data() };
+                // ensure every record has an "items" array for the UI
+                if (!Array.isArray(d.items)) {
+                    // single‑item record produced by the new submit logic
+                    d.items = [{
+                        title: d.itemName || '',
+                        brand: d.brand || '',
+                        quantity: d.wastedQuantity || 0,
+                        units: d.unit || 'kg',
+                    }];
+                }
+                return d;
+            });
 
             // sort newest first and keep the most recent 20
             data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -175,8 +188,21 @@ const Waste = () => {
                 addedDocs.push({ id: docRef.id, ...r });
             }
 
-            // append all the new docs to history so the user sees them immediately
-            setHistory(prev => [...addedDocs, ...prev]);
+            // for local history we also normalize to include an items array
+            const newHistoryEntries = addedDocs.map(d => {
+                return {
+                    ...d,
+                    items: [{
+                        title: d.itemName || '',
+                        brand: d.brand || '',
+                        quantity: d.wastedQuantity || 0,
+                        units: d.unit || 'kg',
+                    }]
+                };
+            });
+
+            // append them so the user sees the new records
+            setHistory(prev => [...newHistoryEntries, ...prev]);
 
             setShowSuccess(true);
             setWasteItems([]);
@@ -316,7 +342,7 @@ const Waste = () => {
                                             <span className="record-status">{record.status}</span>
                                         </div>
                                         <div className="history-items">
-                                            {record.items.map(i => `${i.title || i.brand} (${i.quantity}${i.units || 'kg'})`).join(', ')}
+                                            {record.items?.map(i => `${i.title || i.brand} (${i.quantity}${i.units || 'kg'})`).join(', ') || '—'}
                                         </div>
                                         {record.photo && (
                                             <div className="history-photo">
