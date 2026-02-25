@@ -238,10 +238,9 @@
 .invoice-modal table th,
 .invoice-modal table td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
 
-.invoice-modal .invoice-summary { margin-top: 1rem; text-align: right; }
+.invoice-modal .invoice-summary { margin-top: 1rem; text-align: right; transition: transform 0.3s ease; }
 .invoice-modal .invoice-summary p { margin: 0.25rem 0; }
-    transition: transform 0.3s ease;
-}
+
 
 .explore-btn:hover {
     transform: scale(1.05);
