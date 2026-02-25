@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+// use HashRouter so direct URL entries always load the client app
+// (avoids needing server rewrite rules on static hosts).
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import { db } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
