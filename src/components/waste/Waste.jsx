@@ -131,6 +131,9 @@ const Waste = () => {
         }
     };
 
+    // helper for storing a simple YYYY-MM-DD date string (used by the dashboard filter)
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
     const handleSubmit = async () => {
         if (wasteItems.length === 0) {
             alert("Please add at least one item to waste.");
@@ -145,22 +148,35 @@ const Waste = () => {
             const savedUser = localStorage.getItem('user');
             const user = savedUser ? JSON.parse(savedUser) : null;
 
-            const record = {
+            // we now write one document per item so that the dashboard (which expects
+            // individual records) can pick them up automatically.  each doc will
+            // include a `date` field used by the dashboard filtering.
+            const today = formatDate(new Date());
+
+            const recordsToAdd = wasteItems.map(item => ({
                 userId: user?.id,
                 name: user?.name,
                 restaurantName: user?.restaurantName,
-                items: wasteItems,
+                // item-specific fields
+                itemName: item.title || item.brand || '',
+                wastedQuantity: item.quantity,
+                unit: item.units || 'kg',
+                // shared fields
                 photo,
                 reason,
+                date: today,
                 createdAt: new Date().toISOString(),
                 status: "submitted"
-            };
+            }));
 
-            const docRef = await addDoc(collection(db, "wastage"), record);
+            const addedDocs = [];
+            for (const r of recordsToAdd) {
+                const docRef = await addDoc(collection(db, "wastage"), r);
+                addedDocs.push({ id: docRef.id, ...r });
+            }
 
-            // add to local history immediately if we're viewing history (or for later retrieval)
-            const savedRecord = { id: docRef.id, ...record };
-            setHistory(prev => [savedRecord, ...prev]);
+            // append all the new docs to history so the user sees them immediately
+            setHistory(prev => [...addedDocs, ...prev]);
 
             setShowSuccess(true);
             setWasteItems([]);

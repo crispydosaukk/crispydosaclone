@@ -11,6 +11,7 @@ import Items from './components/items/Items'
 import Cart from './components/cart/Cart'
 import Orders from './components/orders/Orders'
 import Waste from './components/waste/Waste'
+// dashboard component removed; not required for simple storage
 
 import Header from './components/header/Header'
 
@@ -196,6 +197,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* admin dashboard for waste; userRole is enforced within the component itself */}
 
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
