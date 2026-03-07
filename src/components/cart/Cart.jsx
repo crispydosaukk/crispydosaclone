@@ -36,7 +36,7 @@ const Cart = ({ cart, removeFromCart, clearCart }) => {
             const user = savedUser ? JSON.parse(savedUser) : null;
             const userId = user ? user.id : "guest";
             const userName = user ? user.name : "Anonymous";
-            const restaurantName = user ? user.restaurantName : "Saravana Bhavan";
+            const restaurantName = user ? user.restaurantName : "Digital Bot Solutions";
 
             // transform cart items to include price details at time of order
             const itemsForOrder = cart.map(item => {

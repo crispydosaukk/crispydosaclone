@@ -120,7 +120,7 @@ const Category = () => {
             </main>
 
             <footer className="category-footer">
-                <p>&copy; 2026 Saravana Bhavan. All rights reserved.</p>
+                <p>&copy; 2026 Digital Bot Solutions. All rights reserved.</p>
             </footer>
         </div>
     );

@@ -62,7 +62,7 @@ const Header = ({ cart = [] }) => {
             <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
                 <div className="nav-container">
                     <div className="logo-section" onClick={() => navigate('/')}>
-                        <img src="/svb_logo.svg" alt="Saravana Bhavan Logo" className="nav-logo-img" />
+                        <img src="/digitalbot.png" alt="Digital Bot Solutions Logo" className="nav-logo-img" />
                     </div>
 
                     {/* Desktop Nav Links */}
@@ -75,10 +75,10 @@ const Header = ({ cart = [] }) => {
 
                     <div className="nav-actions">
                         {/* cart icon (desktop and mobile) */}
-                    <button className="icon-button" onClick={() => navigate('/addtocart')}>
-                        <ShoppingBag size={20} />
-                        {cart.length > 0 && <span className="cart-badge">{cart.reduce((acc,item)=>acc+item.quantity,0)}</span>}
-                    </button>
+                        <button className="icon-button" onClick={() => navigate('/addtocart')}>
+                            <ShoppingBag size={20} />
+                            {cart.length > 0 && <span className="cart-badge">{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>}
+                        </button>
 
                         {/* Desktop Profile */}
                         <div className="profile-wrapper desktop-only" ref={dropdownRef}>
@@ -168,7 +168,7 @@ const Header = ({ cart = [] }) => {
                                 <button onClick={() => { navigate('/'); toggleMenu(); }} className="sidebar-link-btn">Home</button>
                                 <button onClick={() => { navigate('/addtocart'); toggleMenu(); }} className="sidebar-link-btn">
                                     <ShoppingBag size={18} /> Cart
-                                    {cart.length > 0 && <span className="cart-badge sidebar-badge">{cart.reduce((a,i)=>a+i.quantity,0)}</span>}
+                                    {cart.length > 0 && <span className="cart-badge sidebar-badge">{cart.reduce((a, i) => a + i.quantity, 0)}</span>}
                                 </button>
                                 <button onClick={() => { navigate('/category'); toggleMenu(); }} className="sidebar-link-btn"><ShoppingBag size={18} /> Menu</button>
                                 <button onClick={() => { navigate('/orders'); toggleMenu(); }} className="sidebar-link-btn"><Clock size={18} /> My Orders</button>

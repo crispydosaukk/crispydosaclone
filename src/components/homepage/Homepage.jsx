@@ -9,7 +9,7 @@ const Homepage = () => {
         <div className="homepage-container">
             <header className="hero-section">
                 <div className="hero-content">
-                    <h1 className="hero-title">Experience the Authentic Taste of <span className="highlight">Saravana Bhavan</span></h1>
+                    <h1 className="hero-title">Experience the Authentic Taste of <span className="highlight">Digital Bot Solutions</span></h1>
                     <p className="hero-subtitle">Mouth-watering South Indian delicacies, crafted with love and tradition.</p>
                     <div className="hero-buttons">
                         <button className="cta-button" onClick={() => navigate('/category')}>Explore Menu</button>
@@ -19,7 +19,7 @@ const Homepage = () => {
             </header>
 
             <footer className="homepage-footer">
-                <p>&copy; 2026 Saravana Bhavan. All rights reserved.</p>
+                <p>&copy; 2026 Digital Bot Solutions. All rights reserved.</p>
             </footer>
         </div>
     );
