@@ -92,6 +92,36 @@
     margin-top: 2.5rem;
 }
 
+.cart-action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.add-items-btn {
+    width: 100%;
+    background: rgba(30, 41, 59, 0.5);
+    color: #f8fafc;
+    border: 1px dashed rgba(245, 158, 11, 0.5);
+    padding: 1.2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.add-items-btn:hover {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+    color: #f59e0b;
+    transform: translateY(-2px);
+}
+
 .checkout-btn {
     width: 100%;
     background: linear-gradient(90deg, #f59e0b, #ef4444);
@@ -104,6 +134,10 @@
     cursor: pointer;
     transition: all 0.3s;
     box-shadow: 0 10px 25px rgba(245, 158, 11, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .checkout-btn:hover:not(:disabled) {
@@ -125,7 +159,7 @@
     border-radius: 20px;
     color: #f8fafc;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .contact-info-section h3 {
@@ -332,8 +366,17 @@
         font-size: 1rem;
     }
 
+    .cart-action-buttons {
+        flex-direction: column;
+    }
+
     .remove-btn {
         padding: 10px;
+    }
+
+    .add-items-btn {
+        padding: 1rem;
+        font-size: 1rem;
     }
 
     .checkout-btn {

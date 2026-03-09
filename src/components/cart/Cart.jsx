@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2, ShoppingBag, CheckCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, Trash2, ShoppingBag, CheckCircle, Loader2, Plus } from 'lucide-react';
 
 import './Cart.css';
 
@@ -193,13 +193,21 @@ const Cart = ({ cart, removeFromCart, clearCart }) => {
                         </div> */}
 
                         <div className="cart-actions-section">
-                            <button
-                                className="checkout-btn"
-                                onClick={handlePlaceOrder}
-                                disabled={isPlacingOrder}
-                            >
-                                {isPlacingOrder ? <Loader2 className="animate-spin" size={20} /> : 'Place Order'}
-                            </button>
+                            <div className="cart-action-buttons">
+                                <button
+                                    className="add-items-btn"
+                                    onClick={() => navigate('/category')}
+                                >
+                                    <Plus size={20} /> Add More Items
+                                </button>
+                                <button
+                                    className="checkout-btn"
+                                    onClick={handlePlaceOrder}
+                                    disabled={isPlacingOrder}
+                                >
+                                    {isPlacingOrder ? <Loader2 className="animate-spin" size={20} /> : 'Place Order'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ) : (

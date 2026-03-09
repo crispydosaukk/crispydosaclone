@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { User, Menu, X, ShoppingBag, LogOut, Phone, Store, UserCircle, MapPin, Clock, Trash2 } from 'lucide-react';
+import { User, ShoppingBag, LogOut, Phone, Store, MapPin, Clock, Trash2, ArrowLeft } from 'lucide-react';
 import './Header.css';
 
 const Header = ({ cart = [] }) => {
@@ -57,10 +57,24 @@ const Header = ({ cart = [] }) => {
         if (showProfile) setShowProfile(false);
     };
 
+    // Show back button on all pages except homepage and login
+    const showBackBtn = location.pathname !== '/homepage' && location.pathname !== '/' && location.pathname !== '/login';
+
     return (
         <>
             <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
                 <div className="nav-container">
+                    {/* Mobile Back Arrow (only on sub-pages) */}
+                    {showBackBtn && (
+                        <button
+                            className="mobile-back-btn mobile-only"
+                            onClick={() => navigate(-1)}
+                            aria-label="Go back"
+                        >
+                            <ArrowLeft size={20} />
+                        </button>
+                    )}
+
                     <div className="logo-section" onClick={() => navigate('/')}>
                         <img src="/digitalbot.png" alt="Digital Bot Solutions Logo" className="nav-logo-img" />
                     </div>
@@ -78,6 +92,11 @@ const Header = ({ cart = [] }) => {
                         <button className="icon-button" onClick={() => navigate('/addtocart')}>
                             <ShoppingBag size={20} />
                             {cart.length > 0 && <span className="cart-badge">{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>}
+                        </button>
+
+                        {/* Mobile Logout (Header) */}
+                        <button className="icon-button mobile-only" onClick={handleLogout} aria-label="Logout">
+                            <LogOut size={20} />
                         </button>
 
                         {/* Desktop Profile */}
