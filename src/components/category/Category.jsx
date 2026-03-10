@@ -52,6 +52,16 @@ const Category = () => {
         cat.category?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const slugify = (text) => {
+        return text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]+/g, '')
+            .replace(/--+/g, '-');
+    };
+
     return (
         <div className="category-page">
             <main className="category-container">
@@ -77,35 +87,38 @@ const Category = () => {
                     </div>
                 ) : (
                     <div className="category-grid">
-                        {filteredCategories.map((cat, index) => (
-                            <div
-                                key={cat.id || index}
-                                className="cat-card"
-                                style={{ animationDelay: `${index * 0.1}s` }}
-                                onClick={() => navigate(`/items/${cat.id}`)}
-                            >
-                                <div className="cat-image-wrapper">
-                                    <img
-                                        src={cat.image || 'https://via.placeholder.com/400x300?text=No+Image'}
-                                        alt={cat.category}
-                                        onError={(e) => {
-                                            e.target.src = 'https://images.unsplash.com/photo-1541014741259-df549fb9922d?q=80&w=400&auto=format&fit=crop';
-                                        }}
-                                    />
-                                    <div className="cat-overlay">
-                                        <button className="view-items-btn">
-                                            View Items <ChevronRight size={18} />
-                                        </button>
+                        {filteredCategories.map((cat, index) => {
+                            const slug = slugify(cat.category || cat.id);
+                            return (
+                                <div
+                                    key={cat.id || index}
+                                    className="cat-card"
+                                    style={{ animationDelay: `${index * 0.1}s` }}
+                                    onClick={() => navigate(`/items/${slug}`, { state: { categoryId: cat.id } })}
+                                >
+                                    <div className="cat-image-wrapper">
+                                        <img
+                                            src={cat.image || 'https://via.placeholder.com/400x300?text=No+Image'}
+                                            alt={cat.category}
+                                            onError={(e) => {
+                                                e.target.src = 'https://images.unsplash.com/photo-1541014741259-df549fb9922d?q=80&w=400&auto=format&fit=crop';
+                                            }}
+                                        />
+                                        <div className="cat-overlay">
+                                            <button className="view-items-btn">
+                                                View Items <ChevronRight size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="cat-info">
+                                        <h3>{cat.category}</h3>
+                                        <div className="cat-stats">
+                                            <span>Authentic Taste</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="cat-info">
-                                    <h3>{cat.category}</h3>
-                                    <div className="cat-stats">
-                                        <span>Authentic Taste</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
 

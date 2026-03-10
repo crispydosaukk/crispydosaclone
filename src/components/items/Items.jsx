@@ -1,28 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Loader2, ShoppingCart, Plus, Minus, CheckCircle } from 'lucide-react';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './Items.css';
 
 const Items = ({ cart, addToCart, updateQuantity, clearCart }) => {
-    const { categoryId } = useParams();
+    const { categoryId: slugOrId } = useParams();
+    const location = useLocation();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [categoryName, setCategoryName] = useState('');
     const [cartOpen, setCartOpen] = useState(false);
+    const [realCategoryId, setRealCategoryId] = useState(location.state?.categoryId || null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchItems();
-        fetchCategoryDetails();
-    }, [categoryId]);
+    const slugify = (text) => {
+        return text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]+/g, '')
+            .replace(/--+/g, '-');
+    };
 
-    const fetchItems = async () => {
+    useEffect(() => {
+        // Reset realCategoryId and other states when navigating to a new category slug/ID
+        const stateId = location.state?.categoryId;
+        if (stateId) {
+            setRealCategoryId(stateId);
+        } else {
+            setRealCategoryId(null);
+        }
+        setCategoryName('');
+        setLoading(true);
+    }, [slugOrId, location.state]);
+
+    useEffect(() => {
+        const resolveCategory = async () => {
+            if (realCategoryId) {
+                fetchItems(realCategoryId);
+                fetchCategoryDetails(realCategoryId);
+                return;
+            }
+
+            // Fallback: If no ID in state, find it by slug
+            try {
+                const ref = collection(db, "inventoryCategory");
+                const snapshot = await getDocs(ref);
+                let foundId = null;
+
+                snapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    if (doc.id === slugOrId || slugify(data.category || "") === slugOrId) {
+                        foundId = doc.id;
+                        setCategoryName(data.category);
+                    }
+                });
+
+                if (foundId) {
+                    setRealCategoryId(foundId);
+                    fetchItems(foundId);
+                } else {
+                    console.error("Category not found for slug:", slugOrId);
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error("Error resolving category:", error);
+                setLoading(false);
+            }
+        };
+
+        resolveCategory();
+    }, [slugOrId, realCategoryId]);
+
+    const fetchItems = async (id) => {
         try {
-            // Updated collection name to match screenshot inventoryItems
             const itemsRef = collection(db, "inventoryItems");
-            const q = query(itemsRef, where("categoryId", "==", categoryId));
+            const q = query(itemsRef, where("categoryId", "==", id));
             const snapshot = await getDocs(q);
 
             const data = snapshot.docs.map(doc => ({
@@ -38,10 +94,10 @@ const Items = ({ cart, addToCart, updateQuantity, clearCart }) => {
         }
     };
 
-    const fetchCategoryDetails = async () => {
+    const fetchCategoryDetails = async (id) => {
+        if (categoryName) return; // Already have it from state or slug resolution
         try {
-            // Using inventoryCategory as per screenshot
-            const catRef = doc(db, "inventoryCategory", categoryId);
+            const catRef = doc(db, "inventoryCategory", id);
             const catSnap = await getDoc(catRef);
 
             if (catSnap.exists()) {

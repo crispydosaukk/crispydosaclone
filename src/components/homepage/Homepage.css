@@ -4,8 +4,10 @@
     font-family: 'Outfit', sans-serif;
     color: #fff;
     background: #0f172a;
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Navbar Styles */
@@ -308,7 +310,7 @@
 
 .hero-section {
     position: relative;
-    height: 80vh;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -323,13 +325,14 @@
 .hero-content {
     max-width: 900px;
     animation: fadeInUp 1s ease-out;
+    margin-top: -80px;
 }
 
 .hero-title {
     font-size: 4rem;
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .highlight {
@@ -342,7 +345,7 @@
 .hero-subtitle {
     font-size: 1.25rem;
     color: #94a3b8;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -408,10 +411,11 @@
 }
 
 .homepage-footer {
-    padding: 3rem;
+    padding: 1.5rem;
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: #64748b;
+    font-size: 0.9rem;
 }
 
 @keyframes fadeInUp {
@@ -443,6 +447,10 @@
 
     .nav-container {
         padding: 0 1.5rem;
+    }
+
+    .homepage-container {
+        height: calc(100vh - 65px);
     }
 
     .hero-title {

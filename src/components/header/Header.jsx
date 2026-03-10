@@ -64,19 +64,10 @@ const Header = ({ cart = [] }) => {
         <>
             <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
                 <div className="nav-container">
-                    {/* Mobile Back Arrow (only on sub-pages) */}
-                    {showBackBtn && (
-                        <button
-                            className="mobile-back-btn mobile-only"
-                            onClick={() => navigate(-1)}
-                            aria-label="Go back"
-                        >
-                            <ArrowLeft size={20} />
-                        </button>
-                    )}
+
 
                     <div className="logo-section" onClick={() => navigate('/')}>
-                        <img src="/digitalbot.png" alt="Digital Bot Solutions Logo" className="nav-logo-img" />
+                        <img src="/digitallogo.png" alt="Digital Bot Solutions Logo" className="nav-logo-img" />
                     </div>
 
                     {/* Desktop Nav Links */}
@@ -89,13 +80,13 @@ const Header = ({ cart = [] }) => {
 
                     <div className="nav-actions">
                         {/* cart icon (desktop and mobile) */}
-                        <button className="icon-button" onClick={() => navigate('/addtocart')}>
+                        <button className="icon-button account-btn" onClick={() => navigate('/addtocart')}>
                             <ShoppingBag size={20} />
                             {cart.length > 0 && <span className="cart-badge">{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>}
                         </button>
 
                         {/* Mobile Logout (Header) */}
-                        <button className="icon-button mobile-only" onClick={handleLogout} aria-label="Logout">
+                        <button className="icon-button account-btn mobile-only" onClick={handleLogout} aria-label="Logout">
                             <LogOut size={20} />
                         </button>
 
@@ -232,6 +223,20 @@ const Header = ({ cart = [] }) => {
                     </div>
                 </div>
             </nav>
+
+            {/* Dedicated Back Button Bar (below header) */}
+            {showBackBtn && (
+                <div className="back-link-row mobile-only">
+                    <button
+                        className="simple-back-btn"
+                        onClick={() => navigate(-1)}
+                        aria-label="Go back"
+                    >
+                        <ArrowLeft size={24} color="#ffffff" strokeWidth={3} />
+                    </button>
+                </div>
+            )}
+
             {/* Spacer to prevent content from being hidden behind sticky navbar */}
             <div className="navbar-spacer"></div>
         </>

@@ -85,7 +85,7 @@ const Login = ({ setUser, fetchCart }) => {
                 <div className="login-card">
                     <div className="login-header">
                         <div className="login-logo">
-                            <img src="/digitalbot.png" alt="Digital Bot Solutions Logo" className="login-logo-img" />
+                            <img src="/digitallogo.png" alt="Digital Bot Solutions Logo" className="login-logo-img" />
                         </div>
                         <h2>Welcome Back</h2>
                         <p>Experience the crunch, anywhere you are.</p>
